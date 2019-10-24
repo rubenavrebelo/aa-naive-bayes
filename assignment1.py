@@ -30,18 +30,32 @@ skf = StratifiedKFold(n_splits=5)
 
 attrClasses = []
 
-def predict(set):
-    predictedClass=[]
+def calculate_probability(x, mean, stdev):
+	exponent = np.exp(-((x-mean)**2 / (2 * stdev**2 )))
+	return (1 / (np.sqrt(2 * np.pi) * stdev)) * exponent
+
+def predict(Kdes, Xtest):
+    best_classes = []
+    best_prob = -1
+    
+    for row in Xtest:
+        probabilities = []
+        for i in range(len(row)):
+            probabilities.append(calculate_probability(row[i], np.mean(Xtest.T[i]), np.std(Xtest.T[i])))
+        print(probabilities)
+                    
+    """
     for feature in Kdes:
-        best_prob = -1
-        best_class = 0
         for pClass in range(len(feature)):
             for prob in feature[pClass]:
+                
                 if(prob > best_prob):
                     best_prob = prob
                     best_class = pClass
-        predictedClass.append(best_class)
-    print(predictedClass)
+        best_classes.append(best_class)
+    print(best_classes)
+    return best_classes
+    """
     
 def fit(X, bw):
     Kdes = []
@@ -65,12 +79,11 @@ for column in X.T:
     attrClasses.append([zeroValues, oneValues])
 
 def naiveBayes():
-    fit(attrClasses, 0.3)
-    for row in Xtest:
-        output = predict(Kdes,)
+    Kdes = fit(attrClasses, 0.3)
+    predictions = []
+    predictions.append(predict(Kdes, Xtest))
 
-fit(attrClasses, 0.3)
-predict()
+naiveBayes()
 
         
 """ 
