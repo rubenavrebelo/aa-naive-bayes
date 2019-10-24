@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import sklearn.neighbors.kde
+from sklearn.neighbors.kde import KernelDensity
 from sklearn.naive_bayes import GaussianNB
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score
@@ -24,6 +24,58 @@ std = np.std(X, axis=0)
 X = (X- means)/std
 Xtest = (Xtest - means)/std
 
+"""Naive"""
+
+skf = StratifiedKFold(n_splits=5)
+
+attrClasses = []
+
+def predict(set):
+    predictedClass=[]
+    for feature in Kdes:
+        best_prob = -1
+        best_class = 0
+        for pClass in range(len(feature)):
+            for prob in feature[pClass]:
+                if(prob > best_prob):
+                    best_prob = prob
+                    best_class = pClass
+        predictedClass.append(best_class)
+    print(predictedClass)
+    
+def fit(X, bw):
+    Kdes = []
+    kde = KernelDensity(kernel='gaussian', bandwidth=bw)
+    for feature in X:
+        kde.fit(feature[0])
+        kde0 = np.exp(kde.score_samples(feature[0]))
+        kde.fit(feature[1])
+        kde1 = np.exp(kde.score_samples(feature[1]))
+        Kdes.append([kde0, kde1])
+    return Kdes
+
+for column in X.T:
+    zeroValues = []
+    oneValues = []
+    for i in range(len(column)):
+        if(y[i] == 0):
+            zeroValues.append([column[i]])
+        else:   
+            oneValues.append([column[i]])
+    attrClasses.append([zeroValues, oneValues])
+
+def naiveBayes():
+    fit(attrClasses, 0.3)
+    for row in Xtest:
+        output = predict(Kdes,)
+
+fit(attrClasses, 0.3)
+predict()
+
+        
+""" 
+GaussianNB
+"""
 model = GaussianNB()
 model.fit(X, y)
 y_pred_test = model.predict(Xtest)
@@ -32,8 +84,6 @@ scoreOr = model.score(X, y)
 
 print("Error accuracy of Gaussian Naive Bayes classifier for training =", 1 - scoreOr)
 print("Error accuracy of Gaussian Naive Bayes classifier for testing =", 1 - score)
-
-skf = StratifiedKFold(n_splits=5)
 
 allR = []
 allV = []
@@ -49,7 +99,7 @@ best_gamma = 0.0
 best_value = 1
 for gv in np.arange(0.2, 6.2, 0.2):
     tr_err = va_err = 0
-    for tr_ix, va_ix, in skf.split(y, y):
+    for tr_ix, va_ix, in skf.split(X, y):
         r, v = calc_fold(X, y, tr_ix, va_ix, gv)
         tr_err += r
         va_err += v
@@ -57,7 +107,6 @@ for gv in np.arange(0.2, 6.2, 0.2):
         best_gamma = gv
         best_value = r
             
-    print(gv, tr_err/5, va_err/5)
     allR.append(tr_err/5)
     allV.append(va_err/5)
     
@@ -66,6 +115,8 @@ for gv in np.arange(0.2, 6.2, 0.2):
 classifier = SVC(C=1, kernel= 'rbf', gamma = best_gamma)
 classifier.fit(X, y)
 print("Error: ", 1 - accuracy_score(ytest, classifier.predict(Xtest)), best_gamma)
+
+"""
 plt.plot(np.arange(0.2, 6.2, 0.2), allR, label='Training Error')
 plt.plot(np.arange(0.2, 6.2, 0.2), allV, label='Validation Error')
 plt.grid('true')
@@ -73,3 +124,4 @@ plt.yticks(np.arange(0.01, 0.05, 0.01))
 plt.legend(['Training Error', 'Validation Error'], loc=7)
 plt.savefig('tp1.png')
 plt.show()
+"""
