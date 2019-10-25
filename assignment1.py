@@ -51,23 +51,23 @@ def predict(X, prob, Kdes):
     return predict_class
         
     
-def fit(X, Y, numFeatures, bw):
+def fit(X0, X1, numFeatures, bw):
     Kdes = []
-    probability = (len(X[0]) / len(X), len(X[1]) / len(X))
     for feature in range(numFeatures):
-        kde0 = KernelDensity(kernel='gaussian', bandwidth=bw).fit(X[:, [feature]])
-        kde1 = KernelDensity(kernel='gaussian', bandwidth=bw).fit(Y[:, [feature]])
+        kde0 = KernelDensity(kernel='gaussian', bandwidth=bw).fit(X0[:, [feature]])
+        kde1 = KernelDensity(kernel='gaussian', bandwidth=bw).fit(X1[:, [feature]])
         Kdes.append((kde0, kde1))
-    return Kdes, probability
+    return Kdes
 
 def attributeClasses(X, Y):
     x0 = X[Y == 0, :]
     x1 = X[Y == 1, :]
     return x0, x1
 
-def naiveBayes(X, y, bw):
-    featureZeros, featureOnes = attributeClasses(X, y)
-    Kdes, prob = fit(featureZeros, featureOnes, 4, bw)
+def naiveBayes(X, Y, bw):
+    featureZeros, featureOnes = attributeClasses(X, Y) 
+    prob = (len(featureZeros)/len(X), len(featureOnes/len(X))) # aqui
+    Kdes = fit(featureZeros, featureOnes, 4, bw)
     return prob, Kdes
 
 best_value = 1
