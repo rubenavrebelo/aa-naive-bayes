@@ -19,16 +19,16 @@ R3: We separated the training data (X, after shuffling) into 2 matrices: X0, tho
 
 Q4: Explain how your Naïve Bayes classifier predicts the class to which a test example belongs. You may include a relevant piece of your code if this helps you explain.
 R4: First of all, the classifier creates 4*2 = 8 Kernel Density objects, one for each combination (attribute_j, class_k), and uses each of them to estimate the corresponding distribution p(xj|C=k).
-Then, for an example x, it computes, for each class k, a value proportional to the joint distribution p(x, C=k): ln p(C=k) + sum(j=1:N){ ln p(xj=xj|C=k) } , where each p(xj=xj|C=k) is given by the respective kde.
+Then, for an example x, it computes, for each class k, a value proportional to the joint distribution p(x, C=k): ln p(C=k) + sum(j=1:N){ ln p(xj=xj|C=k) } , where each p(xj=xj|C=k) is given by the corresponding kde.
 Finally, the predicted class corresponds to the one which maximizes this value. 
 
 
 Q5: Explain the effect of the bandwidth parameter on your classifier.
-R5: A bandwidth too large smooths the kernel curve too much, leading to underfitting. Conversely, a bandwidth too small leads to overfitting. 
+R5: The bandwidth is a parameter that smooths the fit of the predicted probability densities to the data points. While a bandwidth too large smooths the kernel curve too much, leading to underfitting, a bandwidth too small tends to adjust to ungeneralizable details of the data, and thus, overfit.
 
 
 Q6: Explain what effect the gamma parameter has on the SVM classifier.
-R6:
+R6: Gamma is a parameter to the Gaussian RBF, and basically defines how far the influence of a single training example reaches. If the gamma is too high, only closer points have influence, leading to overfitting. If the gamma is too low, the points further away carry more weight, leading to straighter decision boundaries and, in general, underfitting.
 
 
 Q7: Explain how you determined the best bandwidth and gamma parameters for your classifier and the SVM classifier. You may include a relevant piece of your code if this helps you explain.
