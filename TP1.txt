@@ -40,8 +40,18 @@ R8: By calling the classifier's .fit() method (fitting to the training set).
 
 
 Q9: Show the best parameters, the estimate of the true error for each hypothesis you obtained (your classifier and the two provided by the library), the ranges in the expected number of errors given by the approximate normal test, the McNemar test values, and discuss what you can conclude from this.
-R9:
+R9: For Naive Bayes with Kernel Density Estimation, the best parameter for the bandwidth was 0.067, the estimate of true error was 0.06, and, the ranges for the approximate normal test are ]84.00 , 101.34[.
+As for the Gaussian Naive Bayes, the estimate of the true error was 0.094, while the range for the approximate normal test was  ]97.74 , 138.26[
+Finally, for SVM, the best value for the parameter gamma was 0.60, the estimate of the true error was 0.043, and, the approximate normal test range was ]41.66 , 70.33[
 
+The values for the McNemar test between classifiers were the following:
+Mcnemar for KDE Naive Bayes & Gaussian NB 18.06
+Mcnemar for KDE Naive Bayes & SVM 13.06
+Mcnemar for Gaussian NB & SVM 37.68
+
+We can conclude from these stats that every classifier has a different performance, having Support Vector Machiens and KDE Naive Bayes the least difference in performance.
+In terms of estimation of the true error, Support Vector Machines stands out of the three, having the lower estimate true error, while, Naive Bayes with Kernel Density Estimation comes after, and finally, Gaussian Naive Bayes.
+The best classifier to use in this case would be either SVM, or, Naive Bayes with Kernel Density Estimation.
 
 Q10: (Optional) Show the estimate of the true error of the optimized SVM classifier (if you did the optional part of the work) and discuss whether it was worth doing this optimization. If you did not do the optional part leave this answer blank.
 R10:
