@@ -9,7 +9,6 @@ Q1: Considering the data provided, explain the need to standardize the attribute
 R1: The attributes have different ranges and scales. Hence, there is the need to standardize in order to deal with every feature uniformly.
 
 
-
 Q2: Explain how you calculated the parameters for standardization and how you used them in the test set.
 R2: The parameters are calculated using the examples in the training set. For each column (feature), we compute the mean and the stdev of that column over all the examples. The same parameters are then used to standardize the test set.
 
@@ -20,7 +19,7 @@ R3: We separated the training data (X, after shuffling) into 2 matrices: X0, tho
 
 Q4: Explain how your Naïve Bayes classifier predicts the class to which a test example belongs. You may include a relevant piece of your code if this helps you explain.
 R4: First of all, the classifier creates 4*2 = 8 Kernel Density objects, one for each combination (attribute_j, class_k), and uses each of them to estimate the corresponding distribution p(xj|C=k).
-Then, for an example x, it computes for each class a value proportional to the joint distribution p(x, C=k): ln p(C=k) + sum(j=1:N){ ln p(xj=xj|C=k) } , where each p(xj=xj|C=k) is given by the respective kde.
+Then, for an example x, it computes, for each class k, a value proportional to the joint distribution p(x, C=k): ln p(C=k) + sum(j=1:N){ ln p(xj=xj|C=k) } , where each p(xj=xj|C=k) is given by the respective kde.
 Finally, the predicted class corresponds to the one which maximizes this value. 
 
 
