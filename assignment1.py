@@ -66,7 +66,7 @@ def attributeClasses(X, Y):
 
 def naiveBayes(X, Y, bw):
     featureZeros, featureOnes = attributeClasses(X, Y) 
-    prob = (len(featureZeros)/len(X), len(featureOnes/len(X))) # aqui
+    prob = (len(featureZeros[0]) / len(X), len(featureOnes[1]) / len(X))
     Kdes = fit(featureZeros, featureOnes, 4, bw)
     return prob, Kdes
 
